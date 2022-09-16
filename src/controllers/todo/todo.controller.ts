@@ -4,6 +4,8 @@ import {
   Controller,
   Delete,
   Get,
+  HttpException,
+  HttpStatus,
   Param,
   Post,
   Put,
@@ -45,6 +47,9 @@ export class TodoController {
   @Delete(':id')
   deleteTodo(@Param('id') id) {
     const index = allTodos.findIndex((td) => td.id === id);
+    if (index === -1)
+      throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+    console.log(index);
     allTodos.splice(index, 1);
     return 'Todo Deleted';
   }
